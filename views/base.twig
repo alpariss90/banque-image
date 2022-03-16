@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <title> {% block title %}{% endblock title %} </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% block css %}
+  <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  {% endblock css %}
+  </head>
+<body>
+
+<div class="container-fluid p-2  text-white text-center" style="background-color: #FF9500"">
+<div class="row">
+  <div class="col-sm-1">
+    <img src="/img/logo.jpg" class="circle" style="height: 40px">
+  </div>
+  <div class="col-sm-5">
+  <p style="float: right">INSTITUT NATIONAL DE LA STATISTIQUE</p> 
+  </div>
+  <div class="col-sm-3">
+			
+			</div>
+</div>
+  
+</div>
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/programme">BANQUE IMAGE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mynavbar">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">EVENEMENTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/form-upload">ENVOI IMAGES</a>
+        </li>
+           <li class="nav-item">
+          <a class="nav-link" href="/banque">BANQUE</a>
+        </li>
+        
+      </ul>
+      
+      
+      <ul>
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">LOGIN</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">CHANGER MOT DE PASSE</a></li>
+            <li><a class="dropdown-item" href="#">DECONNEXION</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      
+  </div>
+</nav>
+
+
+</div>
+  
+<div class="container mt-5">
+
+{% block content %}
+
+{% endblock content %}
+
+</div>
+
+{% block js %}
+<script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock js %}
+</body>
+</html>

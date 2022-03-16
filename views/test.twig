@@ -1,0 +1,45 @@
+{% extends 'base.twig' %}
+
+{% block title %} Liste {% endblock  %}
+
+{% block content %} 
+
+<br>
+ <div class="row">
+    <div class="col-sm-6">
+<div class="card">
+  <div class="card-header">Formualaire ajout evenement</div>
+  <div class="card-body">
+<form action="/upload-file" method="post" enctype="multipart/form-data">
+
+
+
+ <div class="mb-3">
+   
+   <select class="form-control" name="categorie" id="division" required>
+    
+     <option value="">Choix evenement</option>
+      {% for i in activites%}
+     <option value="{{i.id}}">{{i.categorie}} -- {{i.direction}} -- {{i.intitule}}</option>
+     {% endfor %}
+   </select>
+ </div>
+
+
+ <div class="mb-3">
+   <label for="" class="form-label">Choisir les images a envoyé:</label>
+   <input type="file" class='form-control' name="file" id="fileToUpload" multiple required>
+ </div>
+
+<button type="submit" class="btn btn-primary">AJOUTER</button>
+
+
+</form>
+  </div>
+
+</div>
+    </div>
+
+{% endblock %} 
+
+

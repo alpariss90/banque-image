@@ -1,0 +1,47 @@
+{% extends 'base.twig' %}
+
+{% block title %} Liste {% endblock  %}
+
+{% block content %} 
+
+<br>
+ <div class="row">
+    <div class="col-sm-3">
+<div class="card">
+  <div class="card-header">Liste des evenements</div>
+  <div class="card-body">
+  {% for item in activites %}
+      <div class="col-sm-12">
+        <a class="btn btn-primary" href='/banque/{{item.id}}'>
+        {{item.intitule}}
+        </a>
+      </div>
+      <br>
+  {% endfor %}
+  </div>
+ </div> 
+ </div>
+
+{% if  activite.id > 0 %}
+
+  <div class="col-sm-9">
+<div class="card">
+  <div class="card-header"><h2>Les images de {{activite.categorie}} -- {{activite.intitule}} -- {{activite.direction}}</h2></div>
+  <div class="card-body">
+        <div class="row">
+            {% for item in images %}
+                <div class="col-sm-3">
+                    <img src="{{item.intitule_image}}" style="height: 200px"/>
+                </div>
+            {% endfor %}
+        </div>
+  </div>
+ </div> 
+ </div>
+ </div>
+{% endif %}
+
+
+{% endblock %} 
+
+
