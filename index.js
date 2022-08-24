@@ -37,6 +37,9 @@ app.get('/', function(req, res){
 
 app.post('/add-activite',(req, res)=>{
     const { intitule, direction, categorie } = req.body;
+  
+    
+
 
     pool.query(
         "INSERT INTO activite (intitule, direction, categorie, who_done) VALUES ($1, $2, $3, $4)",
@@ -70,27 +73,36 @@ app.get('/form-upload', function(req, res){
 
 app.post('/upload-file', function(req, res){
 
+  
+  
     const { categorie } = req.body;
+    try {
+      // first check if directory already exists
+      if (!fs.existsSync("./public/img/"+categorie)) {
+          fs.mkdirSync("./public/img/"+categorie);
+          console.log("Directory is created.");
+      } else {
+          console.log("Directory already exists.");
+      }
+  } catch (err) {
+      console.log(err);
+  }
+    
 
+    
     req.files.file.filter(item=>{
-        fs.writeFile("./public/img/"+item.name,
+        fs.writeFile("./public/img/"+categorie+"/"+item.name,
         item.data, function(err){
             if(err){
                //return
             console.log('error '+err); 
             }
-
-            
-
-
-            //console.log('up ok');
-            //console.log(item.name);
         });
-
+        var chemin='/img/'+categorie+'/'+item.name;
 
         pool.query(
                 "INSERT INTO image (intitule, activite, who_done) VALUES ($1, $2, $3)",
-                ["/img/"+item.name, categorie, req.hostname],
+                [chemin, categorie, req.hostname],
                 (error, results) => {
                   if (error) {
                     throw error;
@@ -137,5 +149,9 @@ app.get('/banque/:activite?', (req, res)=>{
     
   });
 });
+
+app.listen(4010, ()=>{
+    console.log('App listen at port 4010');
+})
 
 app.listen(4250);

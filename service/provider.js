@@ -1,11 +1,12 @@
 const Pool=require('pg').Pool;
 
 const pool=new Pool({
-username:process.env.PGUSER,
-password:process.env.PGPASSWORD,
-database:process.env.PGDATABASE,
-host:process.env.PGHOST,
-port:process.env.PGPORT
+user: 'postgres',
+password: 'pass',
+database: 'banque',
+host: 'localhost',
+port: 5432
 });
+pool.connect();
 
 module.exports=pool;
