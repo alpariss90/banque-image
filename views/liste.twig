@@ -10,14 +10,11 @@
 <div class="card">
   <div class="card-header">Liste des evenements</div>
   <div class="card-body">
+  <table>
   {% for item in activites %}
-      <div class="col-sm-12">
-        <a class="btn btn-primary" href='/banque/{{item.id}}'>
-        {{item.intitule}}
-        </a>
-      </div>
-      <br>
+        <tr><td><a  href='/banque/{{item.id}}' style='text-decoration: none !important;'>{{item.intitule}}</a></td></tr>
   {% endfor %}
+     </table>
   </div>
  </div> 
  </div>
@@ -30,11 +27,19 @@
   <div class="card-body">
         <div class="row">
             {% for item in images %}
-                <div class="col-sm-3">
-                    <img src="{{item.intitule_image}}" style="height: 200px"/>
+                <div class="col-sm-4" style="padding-bottom: 20px">
+                    <img class="image" src="{{item.intitule_image}}" style="height: 200px; width: 100%"/>
+                <a href="/download/{{item.id_image}}">Télécharger</a>
+              {% if ip==item.who_done %}
+               --------------
+               <a href="/delete/{{item.id_image}}" style'float: left' onclick='return window.confirm("Etes vous sure de vouloir supprimer cette image")'>Supprimer</a>
+          {% endif %}
+
                 </div>
+                
             {% endfor %}
         </div>
+        
   </div>
  </div> 
  </div>

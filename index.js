@@ -18,7 +18,7 @@ app.set('views', './views');
 app.use('/img', express.static(__dirname+'/public/img'));
 
 app.get('/', function(req, res){
-
+  
     pool.query(
         "SELECT * FROM activite",
         [],
@@ -37,13 +37,13 @@ app.get('/', function(req, res){
 
 app.post('/add-activite',(req, res)=>{
     const { intitule, direction, categorie } = req.body;
-  
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     
 
 
     pool.query(
         "INSERT INTO activite (intitule, direction, categorie, who_done) VALUES ($1, $2, $3, $4)",
-        [intitule, direction, categorie, req.hostname],
+        [intitule, direction, categorie, ip],
         (error, results) => {
           if (error) {
             throw error;
@@ -119,6 +119,7 @@ app.post('/upload-file', function(req, res){
 
 
 app.get('/banque/:activite?', (req, res)=>{
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   if(req.params.activite){
     requete='select * from v_image where id=$1';
     p=[req.params.activite];
@@ -141,7 +142,8 @@ app.get('/banque/:activite?', (req, res)=>{
         res.render('liste', {
           images: result.rows,
           activites: rs.rows,
-          activite: activite
+          activite: activite,
+          ip: ip
         })
       });
     }
@@ -149,6 +151,54 @@ app.get('/banque/:activite?', (req, res)=>{
     
   });
 });
+
+app.get('/download/:image', function(req, res){
+  pool.query(
+    "SELECT * FROM image where id=$1",
+    [req.params.image],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      
+      res.download('./public'+results.rows.shift().intitule, function(err) {
+        if(err) {
+            console.log(err);
+        }
+    })
+    }
+  );
+  
+});
+
+
+app.get('/delete/:image', function(req, res){
+  pool.query(
+    "SELECT * FROM image where id=$1;",
+    [req.params.image],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      fs.unlinkSync('./public'+results.rows.shift().intitule);
+      pool.query(
+        "delete from image where id=$1",
+        [req.params.image],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+    
+          res.redirect('/banque');
+        }
+      );
+
+      
+    })
+    }
+  );
+  
+
 
 app.listen(4010, ()=>{
     console.log('App listen at port 4010');
