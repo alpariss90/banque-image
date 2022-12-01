@@ -73,7 +73,7 @@ app.get('/form-upload', function(req, res){
 
 app.post('/upload-file', function(req, res){
 
-  
+  //console.log(req.body);
   
     const { categorie } = req.body;
     try {
